@@ -1,3 +1,7 @@
+<img width="1538" height="869" alt="Screenshot 2026-06-10 160401" src="https://github.com/user-attachments/assets/e5558ea3-802a-4a8d-bccc-c9b527747a95" />
+<img width="1477" height="849" alt="Screenshot 2026-06-10 160313" src="https://github.com/user-attachments/assets/f4ee88c5-7337-4a26-aaa6-387f02f9d7d5" />
+<img width="1477" height="849" alt="Screenshot 2026-06-10 160313" src="https://github.com/user-attachments/assets/b42dc876-1854-4701-b748-e96d5df2fd76" />
+<img width="1457" height="823" alt="Screenshot 2026-06-10 160304" src="https://github.com/user-attachments/assets/566deb88-056a-4bd2-bc46-7a2d703d0ef1" />
 # Student Management App
 ---
 
