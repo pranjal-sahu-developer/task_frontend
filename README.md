@@ -208,7 +208,7 @@ A quick look at the app in action:
 
 New students sign up here. All fields are validated and encrypted before the form is submitted.
 
-![Student Registration](./docs/screenshots/register.png)
+![Student Registration](./docs/screens<img width="1136" height="892" alt="Screenshot 2026-06-10 160202" src="https://github.com/user-attachments/assets/f515b52f-588f-4a15-86f9-718370fecfb1" />ster.png)
 
 ### 2. Login
 
