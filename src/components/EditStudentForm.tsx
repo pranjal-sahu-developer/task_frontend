@@ -14,19 +14,16 @@ import {
   parsePhoneDigits,
   phoneValidationRules,
 } from '../utils/phone';
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-const GENDER_OPTIONS = ['Male', 'Female', 'Other'] as const;
-
-const COURSE_OPTIONS = [
-  'Computer Science',
-  'Information Technology',
-  'Electronics',
-  'Mechanical Engineering',
-  'Business Administration',
-  'Data Science',
-] as const;
+import {
+  addressValidationRules,
+  courseValidationRules,
+  COURSE_OPTIONS,
+  dateOfBirthValidationRules,
+  emailValidationRules,
+  fullNameValidationRules,
+  genderValidationRules,
+  GENDER_OPTIONS,
+} from '../utils/validation';
 
 const inputClass = (hasError: boolean) =>
   [
@@ -158,13 +155,7 @@ function EditStudentForm({
                   id="edit-fullName"
                   type="text"
                   className={inputClass(!!errors.fullName)}
-                  {...register('fullName', {
-                    required: 'Full name is required',
-                    minLength: {
-                      value: 2,
-                      message: 'Full name must be at least 2 characters',
-                    },
-                  })}
+                  {...register('fullName', fullNameValidationRules)}
                 />
                 {errors.fullName && (
                   <p className="mt-1.5 text-sm text-red-600">
@@ -184,13 +175,7 @@ function EditStudentForm({
                   id="edit-email"
                   type="email"
                   className={inputClass(!!errors.email)}
-                  {...register('email', {
-                    required: 'Email is required',
-                    pattern: {
-                      value: EMAIL_PATTERN,
-                      message: 'Enter a valid email address',
-                    },
-                  })}
+                  {...register('email', emailValidationRules)}
                 />
                 {errors.email && (
                   <p className="mt-1.5 text-sm text-red-600">
@@ -230,9 +215,7 @@ function EditStudentForm({
                   id="edit-dateOfBirth"
                   type="date"
                   className={inputClass(!!errors.dateOfBirth)}
-                  {...register('dateOfBirth', {
-                    required: 'Date of birth is required',
-                  })}
+                  {...register('dateOfBirth', dateOfBirthValidationRules)}
                 />
                 {errors.dateOfBirth && (
                   <p className="mt-1.5 text-sm text-red-600">
@@ -251,7 +234,7 @@ function EditStudentForm({
                 <select
                   id="edit-gender"
                   className={inputClass(!!errors.gender)}
-                  {...register('gender', { required: 'Please select gender' })}
+                  {...register('gender', genderValidationRules)}
                 >
                   {GENDER_OPTIONS.map((option) => (
                     <option key={option} value={option}>
@@ -276,9 +259,7 @@ function EditStudentForm({
                 <select
                   id="edit-courseEnrolled"
                   className={inputClass(!!errors.courseEnrolled)}
-                  {...register('courseEnrolled', {
-                    required: 'Please select a course',
-                  })}
+                  {...register('courseEnrolled', courseValidationRules)}
                 >
                   {COURSE_OPTIONS.map((option) => (
                     <option key={option} value={option}>
@@ -304,13 +285,7 @@ function EditStudentForm({
                   id="edit-address"
                   rows={3}
                   className={inputClass(!!errors.address)}
-                  {...register('address', {
-                    required: 'Address is required',
-                    minLength: {
-                      value: 5,
-                      message: 'Address must be at least 5 characters',
-                    },
-                  })}
+                  {...register('address', addressValidationRules)}
                 />
                 {errors.address && (
                   <p className="mt-1.5 text-sm text-red-600">

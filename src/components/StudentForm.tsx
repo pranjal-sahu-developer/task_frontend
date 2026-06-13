@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import api from '../services/api';
 import {
@@ -9,19 +10,17 @@ import {
 import PasswordInput from './PasswordInput';
 import PhoneInput from './PhoneInput';
 import { formatPhoneNumber, phoneValidationRules } from '../utils/phone';
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-const GENDER_OPTIONS = ['Male', 'Female', 'Other'] as const;
-
-const COURSE_OPTIONS = [
-  'Computer Science',
-  'Information Technology',
-  'Electronics',
-  'Mechanical Engineering',
-  'Business Administration',
-  'Data Science',
-] as const;
+import {
+  addressValidationRules,
+  courseValidationRules,
+  COURSE_OPTIONS,
+  dateOfBirthValidationRules,
+  emailValidationRules,
+  fullNameValidationRules,
+  genderValidationRules,
+  GENDER_OPTIONS,
+  passwordValidationRules,
+} from '../utils/validation';
 
 const defaultValues: StudentFormData = {
   fullName: '',
@@ -136,17 +135,7 @@ function StudentForm() {
                 type="text"
                 autoComplete="name"
                 className={inputClass(!!errors.fullName)}
-                {...register('fullName', {
-                  required: 'Full name is required',
-                  minLength: {
-                    value: 2,
-                    message: 'Full name must be at least 2 characters',
-                  },
-                  maxLength: {
-                    value: 100,
-                    message: 'Full name must not exceed 100 characters',
-                  },
-                })}
+                {...register('fullName', fullNameValidationRules)}
               />
               {errors.fullName && (
                 <p className="mt-1.5 text-sm text-red-600">
@@ -167,13 +156,7 @@ function StudentForm() {
                 type="email"
                 autoComplete="email"
                 className={inputClass(!!errors.email)}
-                {...register('email', {
-                  required: 'Email is required',
-                  pattern: {
-                    value: EMAIL_PATTERN,
-                    message: 'Enter a valid email address',
-                  },
-                })}
+                {...register('email', emailValidationRules)}
               />
               {errors.email && (
                 <p className="mt-1.5 text-sm text-red-600">
@@ -213,24 +196,7 @@ function StudentForm() {
                 id="dateOfBirth"
                 type="date"
                 className={inputClass(!!errors.dateOfBirth)}
-                {...register('dateOfBirth', {
-                  required: 'Date of birth is required',
-                  validate: (value) => {
-                    const dob = new Date(value);
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-
-                    if (Number.isNaN(dob.getTime())) {
-                      return 'Enter a valid date';
-                    }
-
-                    if (dob >= today) {
-                      return 'Date of birth must be in the past';
-                    }
-
-                    return true;
-                  },
-                })}
+                {...register('dateOfBirth', dateOfBirthValidationRules)}
               />
               {errors.dateOfBirth && (
                 <p className="mt-1.5 text-sm text-red-600">
@@ -249,13 +215,7 @@ function StudentForm() {
               <select
                 id="gender"
                 className={inputClass(!!errors.gender)}
-                {...register('gender', {
-                  required: 'Please select a gender',
-                  validate: (value) =>
-                    GENDER_OPTIONS.includes(
-                      value as (typeof GENDER_OPTIONS)[number],
-                    ) || 'Please select a valid gender',
-                })}
+                {...register('gender', genderValidationRules)}
               >
                 <option value="" disabled>
                   Select gender
@@ -283,13 +243,7 @@ function StudentForm() {
               <select
                 id="courseEnrolled"
                 className={inputClass(!!errors.courseEnrolled)}
-                {...register('courseEnrolled', {
-                  required: 'Please select a course',
-                  validate: (value) =>
-                    COURSE_OPTIONS.includes(
-                      value as (typeof COURSE_OPTIONS)[number],
-                    ) || 'Please select a valid course',
-                })}
+                {...register('courseEnrolled', courseValidationRules)}
               >
                 <option value="" disabled>
                   Select course
@@ -319,17 +273,7 @@ function StudentForm() {
                 rows={3}
                 autoComplete="street-address"
                 className={inputClass(!!errors.address)}
-                {...register('address', {
-                  required: 'Address is required',
-                  minLength: {
-                    value: 5,
-                    message: 'Address must be at least 5 characters',
-                  },
-                  maxLength: {
-                    value: 300,
-                    message: 'Address must not exceed 300 characters',
-                  },
-                })}
+                {...register('address', addressValidationRules)}
               />
               {errors.address && (
                 <p className="mt-1.5 text-sm text-red-600">
@@ -349,18 +293,7 @@ function StudentForm() {
                 id="password"
                 autoComplete="new-password"
                 hasError={!!errors.password}
-                {...register('password', {
-                  required: 'Password is required',
-                  minLength: {
-                    value: 8,
-                    message: 'Password must be at least 8 characters',
-                  },
-                  pattern: {
-                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-                    message:
-                      'Password must include uppercase, lowercase, and a number',
-                  },
-                })}
+                {...register('password', passwordValidationRules)}
               />
               {errors.password && (
                 <p className="mt-1.5 text-sm text-red-600">
@@ -378,6 +311,16 @@ function StudentForm() {
             {isSubmitting ? 'Registering...' : 'Register Student'}
           </button>
         </form>
+
+        <p className="mt-6 text-center text-sm text-gray-500">
+          Already have an account?{' '}
+          <Link
+            to="/login"
+            className="font-medium text-indigo-600 hover:text-indigo-500"
+          >
+            Login here
+          </Link>
+        </p>
       </div>
     </div>
   );

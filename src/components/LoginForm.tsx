@@ -7,8 +7,10 @@ import { setToken } from '../utils/auth';
 import api from '../services/api';
 import type { LoginCredentials } from '../services/studentService';
 import PasswordInput from './PasswordInput';
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import {
+  emailValidationRules,
+  passwordValidationRules,
+} from '../utils/validation';
 
 const inputClass = (hasError: boolean) =>
   [
@@ -110,13 +112,7 @@ function LoginForm() {
               type="email"
               autoComplete="email"
               className={inputClass(!!errors.email)}
-              {...register('email', {
-                required: 'Email is required',
-                pattern: {
-                  value: EMAIL_PATTERN,
-                  message: 'Enter a valid email address',
-                },
-              })}
+              {...register('email', emailValidationRules)}
             />
             {errors.email && (
               <p className="mt-1.5 text-sm text-red-600">
@@ -136,13 +132,7 @@ function LoginForm() {
               id="password"
               autoComplete="current-password"
               hasError={!!errors.password}
-              {...register('password', {
-                required: 'Password is required',
-                minLength: {
-                  value: 6,
-                  message: 'Password must be at least 6 characters',
-                },
-              })}
+              {...register('password', passwordValidationRules)}
             />
             {errors.password && (
               <p className="mt-1.5 text-sm text-red-600">

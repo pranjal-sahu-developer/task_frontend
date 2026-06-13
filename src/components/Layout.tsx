@@ -2,7 +2,10 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import { isAuthenticated } from '../utils/auth';
 
 function Layout() {
-  const isDashboard = useLocation().pathname === '/dashboard';
+  const { pathname } = useLocation();
+  const isDashboard = pathname === '/dashboard';
+  const isAuthPage = pathname === '/login' || pathname === '/register';
+  const showLoginRegister = isAuthPage || !isAuthenticated();
 
   return (
     <div className="min-h-screen">
@@ -13,14 +16,7 @@ function Layout() {
           </h1>
           {!isDashboard && (
             <nav className="flex gap-4 text-sm font-medium">
-              {isAuthenticated() ? (
-                <Link
-                  to="/dashboard"
-                  className="text-gray-600 hover:text-indigo-600"
-                >
-                  Dashboard
-                </Link>
-              ) : (
+              {showLoginRegister ? (
                 <>
                   <Link
                     to="/login"
@@ -35,6 +31,13 @@ function Layout() {
                     Register
                   </Link>
                 </>
+              ) : (
+                <Link
+                  to="/dashboard"
+                  className="text-gray-600 hover:text-indigo-600"
+                >
+                  Dashboard
+                </Link>
               )}
             </nav>
           )}
